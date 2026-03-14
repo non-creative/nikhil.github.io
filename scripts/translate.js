@@ -323,9 +323,49 @@
   }
 
   /* ─── Boot ──────────────────────────────────────────── */
+  /* ─── Browser language detection ───────────────────────
+     On first visit (no cookie), read navigator.language and
+     auto-translate if the browser's language is supported.
+     The user can always override via the picker.              */
+  function detectBrowserLang() {
+    try {
+      // Already have a preference set — respect it, don't override
+      if (readCookie() !== 'en') return;
+
+      // Check if this is a first visit (no prior lang cookie at all)
+      var hasVisited = false;
+      try { hasVisited = !!localStorage.getItem('lp-visited'); } catch(e) {}
+      if (hasVisited) return; // Returning visitor chose English — keep it
+
+      // Mark as visited so we don't re-trigger on every page load
+      try { localStorage.setItem('lp-visited', '1'); } catch(e) {}
+
+      // navigator.language examples: 'nl', 'nl-NL', 'zh-CN', 'fr-FR', 'ar'
+      var browserLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+      if (!browserLang || browserLang.startsWith('en')) return; // English — nothing to do
+
+      // Try exact match first (e.g. 'zh-CN'), then prefix match (e.g. 'nl' from 'nl-NL')
+      var matched = null;
+      for (var i = 0; i < LANGS.length; i++) {
+        if (LANGS[i].code === 'en') continue;
+        var langCode = LANGS[i].code.toLowerCase();
+        if (langCode === browserLang || browserLang.startsWith(langCode.split('-')[0])) {
+          matched = LANGS[i].code;
+          break;
+        }
+      }
+
+      if (matched) {
+        writeCookie('/en/' + matched);
+        window.location.reload();
+      }
+    } catch(e) {}
+  }
+
   function boot() {
     try {
       keepVisible(); // Immediate guard
+      detectBrowserLang(); // Auto-translate on first visit if browser lang is supported
       injectPickers(getLang(readCookie()));
       loadGT();
       // Belt-and-suspenders: restore visibility after GT has had time to run

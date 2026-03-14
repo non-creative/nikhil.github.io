@@ -14,6 +14,8 @@ img{max-width:100%;display:block}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;height:var(--nav);z-index:200;backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);background:rgba(255,255,255,.85);border-bottom:1px solid rgba(0,0,0,.06);transition:border-color .2s}
+/* Case study pages — nav more opaque (dark content behind it) */
+.page-case nav{background:rgba(255,255,255,.97);backdrop-filter:saturate(180%) blur(8px);-webkit-backdrop-filter:saturate(180%) blur(8px)}
 .nav-inner{max-width:var(--max);margin:0 auto;padding:0 32px;height:100%;display:flex;align-items:center;justify-content:space-between}
 .nav-logo{font-size:22px;font-weight:700;letter-spacing:-.5px}
 .nav-links{display:flex;gap:40px;list-style:none}
@@ -188,15 +190,15 @@ footer{border-top:1px solid var(--light-gray);padding:36px 32px}
 .case-subnav a:hover{color:var(--near-black)}
 .case-subnav a.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
 
-.case-hero{padding:calc(var(--nav) + 72px) 32px 72px}
+.case-hero{padding:calc(var(--nav) + 72px) max(32px, calc((100% - 860px) / 2)) 72px}
 .case-hero-inner{max-width:860px;margin:0 auto}
 .case-meta{display:flex;flex-wrap:wrap;gap:36px;margin-top:48px;padding-top:48px;border-top:1px solid var(--light-gray)}
 .case-meta-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mid-gray);margin-bottom:4px}
 .case-meta-value{font-size:14px;font-weight:500}
 .case-cover{width:100%;max-width:860px;display:block;margin:56px auto 0;border-radius:var(--r);box-shadow:0 24px 72px rgba(0,0,0,.12)}
-.case-section{padding:68px 32px;scroll-margin-top:calc(var(--nav) + 54px)}
+.case-section{padding:68px max(32px, calc((100% - 860px) / 2));scroll-margin-top:calc(var(--nav) + 54px)}
 .case-section:not(:last-of-type){border-bottom:1px solid var(--ultralight)}
-.case-content{max-width:860px;margin:0 auto}
+.case-content{max-width:860px;margin:0 auto;width:100%}
 .case-section h2{margin-bottom:20px}
 .case-section p,.case-section .body-md{margin-bottom:14px}
 .case-section p:last-child{margin-bottom:0}
@@ -277,11 +279,11 @@ footer{border-top:1px solid var(--light-gray);padding:36px 32px}
 }
 @media(max-width:640px){
   .section{padding:64px 20px}
-  .case-section{padding:52px 20px}
+  .case-section{padding:52px max(20px, calc((100% - 860px) / 2))}
   .hero-wrap{padding:calc(var(--nav)+32px) 20px 56px}
   .nav-inner{padding:0 20px}
   .nav-drawer{padding:24px 20px}
-  .case-hero{padding:calc(var(--nav)+44px) 20px 52px}
+  .case-hero{padding:calc(var(--nav)+44px) max(20px, calc((100% - 860px) / 2)) 52px}
   .about-hero{padding:calc(var(--nav)+44px) 20px 48px}
   footer{padding:28px 20px}
   .testimonials-grid{grid-template-columns:1fr}
